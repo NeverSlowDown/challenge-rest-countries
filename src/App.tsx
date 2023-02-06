@@ -1,25 +1,57 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  Link,
+} from "react-router-dom";
+import { ThemeProvider } from "styled-components";
+import HomePage from "./components/homePage";
+import Nav from "./components/Nav";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: (
+      <HomePage />
+    ),
+  },
+  {
+    path: '/:name',
+    element: <div>nameeeee</div>,
+  },
+]);
+
+const theme = {
+  light: {
+    background: "orange",
+    main: "gray",
+    secondary: "red",
+    borderRadius: "4px",
+    mainText: "black",
+    descriptionText: "gray",
+    boxShadow: "2px 0 4px black"
+  },
+  dark: {
+    background: "#FFFFF",
+    main: "gray",
+    secondary: "red",
+    borderRadius: "4px",
+    mainText: "black",
+    descriptionText: "gray",
+    boxShadow: "2px 0 4px black"
+  },
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="App">
+      <ThemeProvider theme={theme.light}>
+        <Nav />
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </main>
   );
 }
 
