@@ -1,8 +1,11 @@
-import styled from 'styled-components';
+import styled from "styled-components";
+import { theme } from "../App";
 
 const Navbar = styled.nav`
-  background: ${({theme}) => theme.main};
+  background: ${({ theme }) => theme.main};
   padding: 8px 0;
+  width: 100%;
+  transition: 0.5s ease background;
 `;
 
 const Container = styled.div`
@@ -14,32 +17,41 @@ const Container = styled.div`
 `;
 
 const ThemeSwitcher = styled.button`
-  color: ${({theme}) => theme.mainText};
+  color: ${({ theme }) => theme.mainText};
   font-size: 1.25em;
-  display: flex;
+  display: grid;
   align-items: center;
   gap: 0 4px;
+  grid-template-columns: 1fr 1fr;
+  transition: 0.5s ease;
+  transition: 0.5s ease color;
 `;
 
 const MainTitle = styled.h1`
-  color: ${({theme}) => theme.mainText};
+  color: ${({ theme }) => theme.mainText};
   font-size: 1.5em;
+  transition: 0.5s ease color;
 `;
 
-export default function Nav() {
+export default function Nav({ currentTheme, setCurrentTheme }: any) {
+  function handleTheme() {
+    const chosenTheme =
+      currentTheme !== null && currentTheme.name === "light"
+        ? theme.dark
+        : theme.light;
+    setCurrentTheme(chosenTheme);
+    localStorage.setItem("theme", chosenTheme.name);
+  }
+
   return (
     <Navbar>
       <Container>
-        <MainTitle>
-          Where in the world?
-        </MainTitle>
-        <ThemeSwitcher>
+        <MainTitle>Where in the world?</MainTitle>
+        <ThemeSwitcher onClick={handleTheme}>
           moon icon
-          <span>
-            Dark Mode
-          </span>
+          <span>Dark Mode</span>
         </ThemeSwitcher>
       </Container>
     </Navbar>
-  )
+  );
 }

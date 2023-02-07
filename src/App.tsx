@@ -6,9 +6,11 @@ import {
   Route,
   Link,
 } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 import HomePage from "./components/homePage";
 import Nav from "./components/Nav";
+import styled from 'styled-components';
+import { useState } from 'react';
 
 const router = createBrowserRouter([
   {
@@ -23,35 +25,57 @@ const router = createBrowserRouter([
   },
 ]);
 
-const theme = {
+export const theme = {
   light: {
-    background: "orange",
-    main: "gray",
+    name: "light",
+    background: "#fafafa",
+    main: "#fffff",
     secondary: "red",
     borderRadius: "4px",
-    mainText: "black",
-    descriptionText: "gray",
-    boxShadow: "2px 0 4px black"
+    mainText: "#2a2b2d",
+    descriptionText: "#646464",
+    boxShadow: "0px 4px 4px #efefef"
   },
   dark: {
-    background: "#FFFFF",
-    main: "gray",
+    name: "dark",
+    background: "#212d36",
+    main: "#2b3743",
     secondary: "red",
     borderRadius: "4px",
-    mainText: "black",
-    descriptionText: "gray",
-    boxShadow: "2px 0 4px black"
+    mainText: "#fbffff",
+    descriptionText: "#dde7ef",
+    boxShadow: "0px 4px 4px #efefef"
   },
 };
 
+const Main = styled.main`
+  display: flex;                 
+  flex-direction: column;      
+  justify-content: space-between; 
+  width: 100%;
+  height: 100%;
+`;
+
+const GlobalStyle = createGlobalStyle`
+  html, body, #root {
+    width: 100%;
+    height: 100%;
+  }
+`
+
+
 function App() {
+  const initialTheme = localStorage.getItem("theme") !== null ? localStorage.getItem("theme") : "light"
+  console.log({initialTheme})
+  const [currentTheme, setCurrentTheme] = useState( initialTheme === "light" ? theme.light : theme.dark )
   return (
-    <main className="App">
-      <ThemeProvider theme={theme.light}>
-        <Nav />
+    <Main className="App">
+      <ThemeProvider theme={currentTheme}>
+        <GlobalStyle />
+        <Nav currentTheme={currentTheme} setCurrentTheme={setCurrentTheme} />
         <RouterProvider router={router} />
       </ThemeProvider>
-    </main>
+    </Main>
   );
 }
 
