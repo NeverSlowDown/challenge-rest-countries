@@ -135,6 +135,7 @@ interface Country {
     svg: string;
     png: string;
   };
+  cca2: string;
 }
 
 export default function HomePage() {
@@ -151,8 +152,8 @@ export default function HomePage() {
       const response = await fetch("https://restcountries.com/v3.1/all");
       const data = await response.json();
       const result = data.map(
-        ({ name, population, region, capital, flags }: Country) => {
-          return { name, population, region, capital, flags };
+        ({ name, population, region, capital, flags, cca2 }: Country) => {
+          return { name, population, region, capital, flags, cca2 };
         }
       );
       setCountries(result);
@@ -171,8 +172,8 @@ export default function HomePage() {
       );
       const data = await response.json();
       const result = data.map(
-        ({ name, population, region, capital, flags }: Country) => {
-          return { name, population, region, capital, flags };
+        ({ name, population, region, capital, flags, cca2 }: Country) => {
+          return { name, population, region, capital, flags, cca2 };
         }
       );
       setCountries(result);
@@ -192,8 +193,8 @@ export default function HomePage() {
       );
       const data = await response.json();
       const result = data.map(
-        ({ name, population, region, capital, flags }: Country) => {
-          return { name, population, region, capital, flags };
+        ({ name, population, region, capital, flags, cca2 }: Country) => {
+          return { name, population, region, capital, flags, cca2 };
         }
       );
       setCountries(result);
@@ -253,7 +254,7 @@ export default function HomePage() {
               {countries.map((country: Country, index) => {
                 return (
                   <CountryItem key={`country-${index}`}>
-                    <CountryContainer to={`/${country.name.common}`}>
+                    <CountryContainer to={`/${country.cca2}`}>
                       <FlagContainer>
                         <CountryFlag
                           src={country.flags.svg}
