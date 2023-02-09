@@ -3,25 +3,22 @@ import "./App.css";
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
-  Link,
 } from "react-router-dom";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import HomePage from "./components/homePage";
+import HomePage from "./components/HomePage";
 import Nav from "./components/Nav";
-import styled from 'styled-components';
-import { useState } from 'react';
+import styled from "styled-components";
+import { useState } from "react";
+import CountryPage from "./components/CountryPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <HomePage />
-    ),
+    element: <HomePage />,
   },
   {
-    path: '/:name',
-    element: <div>nameeeee</div>,
+    path: "/:name",
+    element: <CountryPage />,
   },
 ]);
 
@@ -34,7 +31,7 @@ export const theme = {
     borderRadius: "4px",
     mainText: "#2a2b2d",
     descriptionText: "#646464",
-    boxShadow: "0px 4px 4px #efefef"
+    boxShadow: "0px 4px 4px #efefef",
   },
   dark: {
     name: "dark",
@@ -44,30 +41,46 @@ export const theme = {
     borderRadius: "4px",
     mainText: "#fbffff",
     descriptionText: "#dde7ef",
-    boxShadow: "0px 4px 4px #efefef"
+    boxShadow: "0px 4px 4px #efefef",
   },
 };
 
 const Main = styled.main`
-  display: flex;                 
-  flex-direction: column;      
-  justify-content: space-between; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
   height: 100%;
 `;
 
-const GlobalStyle = createGlobalStyle`
-  html, body, #root {
-    width: 100%;
-    height: 100%;
-  }
-`
-
-
 function App() {
-  const initialTheme = localStorage.getItem("theme") !== null ? localStorage.getItem("theme") : "light"
-  console.log({initialTheme})
-  const [currentTheme, setCurrentTheme] = useState( initialTheme === "light" ? theme.light : theme.dark )
+  const initialTheme =
+    localStorage.getItem("theme") !== null
+      ? localStorage.getItem("theme")
+      : "light";
+  const [currentTheme, setCurrentTheme] = useState(
+    initialTheme === "light" ? theme.light : theme.dark
+  );
+
+  const GlobalStyle = createGlobalStyle`
+    html, body, #root {
+      width: 100%;
+      height: 100%;
+    }
+    .filter-continent {
+      color: ${currentTheme.mainText};
+      transition: 0.5s ease;
+      background: ${currentTheme.main};
+      box-shadow: ${currentTheme.boxShadow};
+      padding: 12px 20px !important;
+    }
+    
+    .react-dropdown-select-dropdown {
+      color: ${currentTheme.mainText} !important;
+      background: ${currentTheme.main} !important;
+    }
+  `;
+
   return (
     <Main className="App">
       <ThemeProvider theme={currentTheme}>

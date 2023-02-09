@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { theme } from "../App";
 
+
 const Navbar = styled.nav`
   background: ${({ theme }) => theme.main};
   padding: 8px 0;
