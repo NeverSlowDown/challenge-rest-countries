@@ -6,6 +6,7 @@ import { Container } from "./HomePage";
 const CountrySection = styled.section`
   background: ${({ theme }) => theme.background};
   height: 100%;
+  transition: 0.5s ease background;
 `;
 
 const BackContainer = styled.div`

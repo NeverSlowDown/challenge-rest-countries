@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import styled from "styled-components";
 import Select from "react-dropdown-select";
+import { Link } from "react-router-dom";
 
 const Section = styled.section`
   background: ${({ theme }) => theme.background};
@@ -53,10 +54,15 @@ const CountryList = styled.ul`
   width: 100%;
 `;
 
-const CountryItem = styled.li`
+const CountryItem = styled.li``;
+
+const CountryContainer = styled(Link)`
   display: flex;
   flex-direction: column;
   box-shadow: ${({ theme }) => theme.boxShadow};
+  height: 100%;
+  text-decoration: none;
+  color: ${({ theme }) => theme.mainText};
 `;
 
 const CountryInformation = styled.article`
@@ -156,7 +162,6 @@ export default function HomePage() {
     } finally {
       setLoading(false);
     }
-
   }
   async function getAllCountriesByContinentData() {
     try {
@@ -179,7 +184,6 @@ export default function HomePage() {
     }
   }
 
-  
   async function getCountryByName() {
     try {
       setLoading(true);
@@ -203,9 +207,8 @@ export default function HomePage() {
 
   function handleSearch(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    getCountryByName()
+    getCountryByName();
   }
-
 
   useEffect(() => {
     getAllCountriesData();
@@ -221,10 +224,8 @@ export default function HomePage() {
     <Section>
       <Container>
         <SearchBar>
-          <form onSubmit={e => handleSearch(e)}>
-            <button type="submit">
-              lupa
-            </button>
+          <form onSubmit={(e) => handleSearch(e)}>
+            <button type="submit">lupa</button>
             <SearchCountry
               type="text"
               autoComplete="off"
@@ -252,27 +253,31 @@ export default function HomePage() {
               {countries.map((country: Country, index) => {
                 return (
                   <CountryItem key={`country-${index}`}>
-                    <FlagContainer>
-                      <CountryFlag
-                        src={country.flags.svg}
-                        alt={country.name.common}
-                      />
-                    </FlagContainer>
-                    <CountryInformation>
-                      <CountryName>{country.name.common}</CountryName>
-                      <InformationItem>
-                        <ItemTitle>Population</ItemTitle>
-                        <ItemDescription>{country.population}</ItemDescription>
-                      </InformationItem>
-                      <InformationItem>
-                        <ItemTitle>Region</ItemTitle>
-                        <ItemDescription>{country.region}</ItemDescription>
-                      </InformationItem>
-                      <InformationItem>
-                        <ItemTitle>Capital</ItemTitle>
-                        <ItemDescription>{country.capital}</ItemDescription>
-                      </InformationItem>
-                    </CountryInformation>
+                    <CountryContainer to={`/${country.name.common}`}>
+                      <FlagContainer>
+                        <CountryFlag
+                          src={country.flags.svg}
+                          alt={country.name.common}
+                        />
+                      </FlagContainer>
+                      <CountryInformation>
+                        <CountryName>{country.name.common}</CountryName>
+                        <InformationItem>
+                          <ItemTitle>Population</ItemTitle>
+                          <ItemDescription>
+                            {country.population}
+                          </ItemDescription>
+                        </InformationItem>
+                        <InformationItem>
+                          <ItemTitle>Region</ItemTitle>
+                          <ItemDescription>{country.region}</ItemDescription>
+                        </InformationItem>
+                        <InformationItem>
+                          <ItemTitle>Capital</ItemTitle>
+                          <ItemDescription>{country.capital}</ItemDescription>
+                        </InformationItem>
+                      </CountryInformation>
+                    </CountryContainer>
                   </CountryItem>
                 );
               })}
