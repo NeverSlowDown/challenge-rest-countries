@@ -149,14 +149,10 @@ export default function HomePage() {
   async function getAllCountriesData() {
     try {
       setLoading(true);
-      const response = await fetch("https://restcountries.com/v3.1/all");
+      const response = await fetch("https://restcountries.com/v3.1/all?fields=name,population,region,capital,flags,cca2");
       const data = await response.json();
-      const result = data.map(
-        ({ name, population, region, capital, flags, cca2 }: Country) => {
-          return { name, population, region, capital, flags, cca2 };
-        }
-      );
-      setCountries(result);
+      
+      setCountries(data);
     } catch (err) {
       setCountries([]);
       return err;
@@ -168,15 +164,10 @@ export default function HomePage() {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://restcountries.com/v3.1/region/${continent[0].value}`
+        `https://restcountries.com/v3.1/region/${continent[0].value}?fields=name,population,region,capital,flags,cca2`
       );
       const data = await response.json();
-      const result = data.map(
-        ({ name, population, region, capital, flags, cca2 }: Country) => {
-          return { name, population, region, capital, flags, cca2 };
-        }
-      );
-      setCountries(result);
+      setCountries(data);
     } catch (err) {
       setCountries([]);
       return err;
@@ -189,15 +180,10 @@ export default function HomePage() {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://restcountries.com/v3.1/name/${countryName}`
+        `https://restcountries.com/v3.1/name/${countryName}?fields=name,population,region,capital,flags,cca2`
       );
       const data = await response.json();
-      const result = data.map(
-        ({ name, population, region, capital, flags, cca2 }: Country) => {
-          return { name, population, region, capital, flags, cca2 };
-        }
-      );
-      setCountries(result);
+      setCountries(data);
     } catch (err) {
       setCountries([]);
       return err;
