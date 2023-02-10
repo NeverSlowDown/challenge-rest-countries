@@ -120,7 +120,6 @@ export default function CountryPage() {
           `https://restcountries.com/v3.1/alpha/${name}`
         );
         const data = await response.json();
-        // TODO: borders are only codes: need to implement:
 
         const result = data.map(
           ({
@@ -164,7 +163,7 @@ export default function CountryPage() {
 
         // let's extract all the borders cca2 code and join them into a single string to use as a param for the API
 
-        // I can't do this because it will take all the information from the countries and I only need cca2 and name, so let's send 3 different api calls
+        // I can't do this because it will take all the information from the countries (currently API V3 doesn't allow me to send param fields with param codes...) and I only need cca2 and name, so let's send 3 different api calls
         // const borderCodes = result[0].borders.join(",");
         // console.log({borderCodes})
         // const borderResponse = await fetch(
@@ -203,8 +202,6 @@ export default function CountryPage() {
 
     getBorderCountriesData();
   }, [data]);
-
-  console.log({ data, borderData });
 
   const navigate = useNavigate();
   return (
