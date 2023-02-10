@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { ArrowLeft } from "../icons/ArrowLeft";
 import { Container } from "./HomePage";
 import SkeletonCountry from "./SkeletonCountry";
+import SkeletonBorder from "./SkeletonBorder";
 
 const CountrySection = styled.section`
   background: ${({ theme }) => theme.background};
@@ -63,7 +64,7 @@ const CountryDetails = styled.article`
   display: grid;
   align-items: center;
   grid-template-columns: repeat(auto-fill, minmax(540px, 1fr));
-  @media screen and (max-width: 675px){
+  @media screen and (max-width: 675px) {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
   color: ${({ theme }) => theme.mainText};
@@ -78,7 +79,7 @@ const FlagContainer = styled.figure`
 
 const Flag = styled.img`
   width: 100%;
-  object-fit: cover ;
+  object-fit: cover;
 `;
 
 const Details = styled.article`
@@ -173,6 +174,7 @@ interface BorderCountry {
 export default function CountryPage() {
   const [data, setData] = useState<CountryInfo | undefined>();
   const [borderData, setBorderData] = useState<BorderCountry[] | []>([]);
+  const [loadingBorder, setLoadingBorder] = useState(false);
   const [loading, setLoading] = useState(false);
   const { name } = useParams();
 
@@ -247,22 +249,28 @@ export default function CountryPage() {
   }, [name]);
 
   useEffect(() => {
-    const getBorderCountriesData = () =>
+    const getBorderCountriesData = () => {
+      setLoadingBorder(true);
       data !== undefined &&
-      data.borders !== undefined &&
-      Promise.all(
-        data.borders.map(async (border: string) => {
-          const borderResponse = await fetch(
-            `https://restcountries.com/v3.1/alpha/${border}?fields=name,cca2`
-          );
-          const borderData = await borderResponse.json();
-          return borderData;
-        })
-      )
-        .then((values: BorderCountry[]) => {
-          setBorderData(values);
-        })
-        .catch((e) => console.log(e));
+        data.borders !== undefined &&
+        Promise.all(
+          data.borders.map(async (border: string) => {
+            const borderResponse = await fetch(
+              `https://restcountries.com/v3.1/alpha/${border}?fields=name,cca2`
+            );
+            const borderData = await borderResponse.json();
+            return borderData;
+          })
+        )
+          .then((values: BorderCountry[]) => {
+            setBorderData(values);
+            setLoadingBorder(false);
+          })
+          .catch((e) => {
+            setLoadingBorder(false);
+            console.log(e);
+          });
+    };
 
     getBorderCountriesData();
   }, [data]);
@@ -276,9 +284,9 @@ export default function CountryPage() {
             <ArrowLeft /> Back
           </GoBack>
         </BackContainer>
-        {/* {loading ? ( */}
+        {loading ? (
           <SkeletonCountry />
-        {/* ) : data !== undefined ? (
+        ) : data !== undefined ? (
           <CountryDetails>
             <FlagContainer>
               <Flag src={data["flags"]["svg"]} />
@@ -309,9 +317,7 @@ export default function CountryPage() {
                 <Column>
                   <InformationItem>
                     <ItemTitle>Top Level Domain:</ItemTitle>
-                    <ItemDescription>
-                      {data["tld"].join(" / ")}
-                    </ItemDescription>
+                    <ItemDescription>{data["tld"].join(" / ")}</ItemDescription>
                   </InformationItem>
                   <InformationItem>
                     <ItemTitle>Currencies:</ItemTitle>
@@ -326,16 +332,18 @@ export default function CountryPage() {
                     </ItemDescription>
                   </InformationItem>
                 </Column>
-                {borderData.length > 0 && (
+                {loadingBorder ?
+                  <SkeletonBorder />
+                : borderData.length > 0 && (
                   <Borders>
-                      <ItemTitle>Border Countries:</ItemTitle>
-                      <BorderContainer>
-                        {borderData.map((border: BorderCountry) => (
-                          <LinkButton to={`/${border.cca2}`} key={border.cca2}>
-                            {border.name.common}
-                          </LinkButton>
-                        ))}
-                      </BorderContainer>
+                    <ItemTitle>Border Countries:</ItemTitle>
+                    <BorderContainer>
+                      {borderData.map((border: BorderCountry) => (
+                        <LinkButton to={`/${border.cca2}`} key={border.cca2}>
+                          {border.name.common}
+                        </LinkButton>
+                      ))}
+                    </BorderContainer>
                   </Borders>
                 )}
               </Information>
@@ -343,7 +351,7 @@ export default function CountryPage() {
           </CountryDetails>
         ) : (
           <div>error</div>
-        )} */}
+        )}
       </Container>
     </CountrySection>
   );
