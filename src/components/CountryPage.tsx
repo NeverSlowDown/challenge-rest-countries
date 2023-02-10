@@ -309,17 +309,13 @@ export default function CountryPage() {
                   <InformationItem>
                     <ItemTitle>Top Level Domain:</ItemTitle>
                     <ItemDescription>
-                      {data["tld"].map((domain: string) => (
-                        <span key={domain}>{domain}</span>
-                      ))}
+                      {data["tld"].join(" / ")}
                     </ItemDescription>
                   </InformationItem>
                   <InformationItem>
                     <ItemTitle>Currencies:</ItemTitle>
                     <ItemDescription>
-                      {data["currencies"].map((currency: string) => (
-                        <span key={currency}>{currency}</span>
-                      ))}
+                      {data["currencies"].join(" / ")}
                     </ItemDescription>
                   </InformationItem>
                   <InformationItem>

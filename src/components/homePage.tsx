@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Select from "react-dropdown-select";
 import { Link } from "react-router-dom";
 import { MagnifyingGlass } from "../icons/MagnifyingGlass";
+import SkeletonCard from './SkeletonCard';
 
 const Section = styled.section`
   background: ${({ theme }) => theme.background};
@@ -55,6 +56,9 @@ const SearchCountry = styled.input`
   }
   @media screen and (max-width: 675px) {
     max-width: 100%
+  }
+  &::placeholder {
+    color: ${({ theme }) => theme.mainText}
   }
 `;
 
@@ -121,6 +125,7 @@ const FlagContainer = styled.figure`
     filter: brightness(1.1);
   }
 `;
+
 const CountryFlag = styled.img`
   width: 100%;
   height: 100%;
@@ -180,6 +185,7 @@ const FormSearch = styled.form`
     max-width: 100%
   }
 `;
+
 
 const options = [
   {
@@ -355,7 +361,12 @@ export default function HomePage() {
 
         <Content>
           {loading ? (
-            <div>loading...</div>
+            <CountryList>
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+            </CountryList>
           ) : countries && countries.length > 0 ? (
             <CountryList>
               {countries.map((country: Country, index) => {
