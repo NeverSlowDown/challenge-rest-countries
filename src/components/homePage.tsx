@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from "react";
 import styled from "styled-components";
 import Select from "react-dropdown-select";
 import { Link } from "react-router-dom";
+import { MagnifyingGlass } from "../icons/MagnifyingGlass";
 
 const Section = styled.section`
   background: ${({ theme }) => theme.background};
@@ -27,12 +28,25 @@ const SearchBar = styled.div`
 const SearchCountry = styled.input`
   display: flex;
   background: ${({ theme }) => theme.main};
+  color: ${({ theme }) => theme.mainText};
   border-radius: ${({ theme }) => theme.borderRadius};
   box-shadow: ${({ theme }) => theme.boxShadow};
+  border: none;
   padding: 12px 20px;
   width: 100%;
   max-width: 500px;
   transition: 0.5s ease background;
+  padding-left: 42px;
+  transition: 0.3s ease;
+  min-height: 56px;
+  box-sizing: border-box;
+  &:focus {
+    box-shadow: ${({ theme }) => theme.boxShadowHover};
+    outline: none;
+    + button {
+      transform: scale(1) rotate(0deg);
+    }
+  }
 `;
 
 const Content = styled.section`
@@ -48,14 +62,21 @@ const NotFound = styled.section`
 
 const CountryList = styled.ul`
   display: grid;
-  grid-gap: 32px;
-  grid-template-columns: repeat(4, minmax(200px, 1fr));
+  grid-gap: 74px 18px;
+  grid-template-columns: repeat(auto-fill ,minmax(266px, 266px));
   padding: 32px 0;
+  justify-content: space-between;
   width: 100%;
+  @media screen and (max-width: 874px) {
+    grid-template-columns: repeat(auto-fill ,minmax(224px,1fr));
+  }
 `;
 
 const CountryItem = styled.li`
   background: ${({ theme }) => theme.main};
+  max-width: 266px;
+  border-radius: ${({ theme }) => theme.borderRadius};
+  transition: 0.5s ease;
 `;
 
 const CountryContainer = styled(Link)`
@@ -64,12 +85,18 @@ const CountryContainer = styled(Link)`
   box-shadow: ${({ theme }) => theme.boxShadow};
   height: 100%;
   text-decoration: none;
+  border-radius: ${({ theme }) => theme.borderRadius};
   color: ${({ theme }) => theme.mainText};
+  overflow: hidden;
+  transition: .3s ease;
+  &:hover {
+    box-shadow: ${({ theme }) => theme.boxShadowHover};
+  }
 `;
 
 const CountryInformation = styled.article`
   display: grid;
-  padding: 16px 8px;
+  padding: 24px 24px 48px 24px;
   grid-template-columns: 1fr;
   gap: 8px 0;
   color: ${({ theme }) => theme.mainText};
@@ -79,15 +106,23 @@ const FlagContainer = styled.figure`
   display: flex;
   justify-content: center;
   overflow: hidden;
+  height: 164px;
+  transition: 0.3s ease;
+  ${CountryContainer}:hover & {
+    filter: brightness(1.1);
+  }
 `;
 const CountryFlag = styled.img`
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 const InformationItem = styled.p`
   display: grid;
   align-items: center;
   gap: 0 4px;
   grid-template-columns: max-content max-content;
+  transition: 0.5s ease;
 `;
 
 const CountryName = styled.span`
@@ -95,16 +130,43 @@ const CountryName = styled.span`
   font-size: 1.25em;
   text-align: left;
   margin-bottom: 16px;
-  font-weight: 600;
+  font-weight: 800;
+  transition: 0.5s ease;
 `;
 
 const ItemTitle = styled.span`
   color: ${({ theme }) => theme.mainText};
   font-weight: 600;
+  font-size: 0.875em;
+  transition: 0.5s ease;
 `;
 
 const ItemDescription = styled.span`
   color: ${({ theme }) => theme.descriptionText};
+  font-size: 0.875em;
+  transition: 0.5s ease;
+`;
+
+const Search = styled.button`
+  color: ${({ theme }) => theme.mainText};
+  background: none;
+  width: 28px;
+  padding: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  left: 12px;
+  margin-top: 2px;
+  transform: scale(0.8) rotate(4deg);
+  transition: 0.3s ease;
+`;
+
+const FormSearch = styled.form`
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  max-width: 462px;
 `;
 
 const options = [
@@ -170,7 +232,7 @@ export default function HomePage() {
         "https://restcountries.com/v3.1/all?fields=name,population,region,capital,flags,cca2"
       );
       const data = await response.json();
-      
+
       // if there's a continent selected then filter countries
       if (continent[0].value !== "All") {
         const filtered = data.filter(
@@ -182,7 +244,6 @@ export default function HomePage() {
       }
       // save all region countries
       setAllRegionCountries(data);
-
     } catch (err) {
       setCountries([]);
       return err;
@@ -213,7 +274,6 @@ export default function HomePage() {
         }
         // save all region countries
         setAllRegionCountries(data);
-
       } catch (err) {
         setCountries([]);
         return err;
@@ -258,8 +318,7 @@ export default function HomePage() {
     <Section>
       <Container>
         <SearchBar>
-          <form onSubmit={(e) => handleSearch(e)}>
-            <button type="submit">lupa</button>
+          <FormSearch onSubmit={(e) => handleSearch(e)}>
             <SearchCountry
               type="text"
               autoComplete="off"
@@ -268,7 +327,10 @@ export default function HomePage() {
               value={countryName}
               onChange={(e) => setCountryName(e.target.value)}
             />
-          </form>
+            <Search type="submit">
+              <MagnifyingGlass />
+            </Search>
+          </FormSearch>
           <Select
             className="filter-continent"
             values={continent}

@@ -25,23 +25,25 @@ const router = createBrowserRouter([
 export const theme = {
   light: {
     name: "light",
-    background: "#fafafa",
-    main: "#fffff",
+    background: "hsl(0, 0%, 98%)",
+    main: "#ffffff",
     secondary: "red",
-    borderRadius: "4px",
+    borderRadius: "8px",
     mainText: "hsl(200, 15%, 8%)",
     descriptionText: "hsl(0, 0%, 52%)",
-    boxShadow: "0px 4px 4px #efefef",
+    boxShadow: "0px 2px 8px #e3e3e3",
+    boxShadowHover: "0px 8px 16px #e3e3e3",
   },
   dark: {
     name: "dark",
     background: "hsl(207, 26%, 17%)",
     main: "hsl(209, 23%, 22%)",
     secondary: "red",
-    borderRadius: "4px",
+    borderRadius: "8px",
     mainText: "hsl(0, 0%, 100%)",
     descriptionText: "hsl(0, 0%, 52%)",
-    boxShadow: "0px 4px 4px #efefef",
+    boxShadow: "0px 2px 8px #00000",
+    boxShadowHover: "0px 8px 16px #00000",
   },
 };
 

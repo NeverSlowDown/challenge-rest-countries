@@ -46,13 +46,16 @@ const ThemeSwitcher = styled.button`
 const MainTitle = styled.a`
   color: ${({ theme }) => theme.mainText};
   font-size: 1.5em;
-  transition: 0.5s ease color;
+  transition: 0.5s ease;
   text-decoration: none;
   font-weight: 800;
+  &:hover {
+    opacity: 0.7
+  }
 `;
 
 interface ThemeSwitch {
-  on: boolean
+  on: string
 }
 
 const IconContainer = styled.figure<ThemeSwitch>`
@@ -60,7 +63,7 @@ const IconContainer = styled.figure<ThemeSwitch>`
   width: 24px;
   position: absolute;
   left: 0;
-  transform: ${ ({on}) => on ? 'translateY(0px)': 'translateY(-24px)'} ;
+  transform: ${ ({on}) => on === "on" ? 'translateY(0px)': 'translateY(-24px)'} ;
   transition: 0.3s ease;
   svg {
     transition: 0.5s ease;
@@ -83,10 +86,10 @@ export default function Nav({ currentTheme, setCurrentTheme }: any) {
       <Container>
         <MainTitle href="/">Where in the world?</MainTitle>
         <ThemeSwitcher onClick={handleTheme}>
-          <IconContainer on={currentTheme.name === "light"}>
+          <IconContainer on={currentTheme.name === "light" ? "on" : "off"}>
             <Moon />
           </IconContainer>
-          <IconContainer on={currentTheme.name === "dark"}>
+          <IconContainer on={currentTheme.name === "dark" ? "on" : "off"}>
             <Sun />
           </IconContainer>
           <span>{currentTheme.name === "dark" ? 'Light' : 'Dark'} Mode</span>
