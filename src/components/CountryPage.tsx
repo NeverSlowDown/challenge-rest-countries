@@ -61,19 +61,23 @@ const GoBack = styled.button`
 const CountryDetails = styled.article`
   display: grid;
   align-items: center;
-  grid-template-columns: minmax(540px, 1fr) minmax(300px, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(540px, 1fr));
+  @media screen and (max-width: 675px){
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
   color: ${({ theme }) => theme.mainText};
-  gap: 0 120px;
+  gap: 50px 120px;
 `;
 
 const FlagContainer = styled.figure`
   max-height: 400px;
   display: flex;
+  max-width: 750px;
 `;
 
 const Flag = styled.img`
   width: 100%;
-  height: 100%;
+  object-fit: cover ;
 `;
 
 const Details = styled.article`
@@ -94,6 +98,9 @@ const Information = styled.ul`
   flex-wrap: wrap;
   align-items: flex-start;
   gap: 12px 0;
+  @media screen and (max-width: 675px) {
+    gap: 64px 0;
+  }
 `;
 
 const Column = styled.li`
@@ -101,6 +108,9 @@ const Column = styled.li`
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px 0;
+  @media screen and (max-width: 675px) {
+    gap: 16px 0;
+  }
 `;
 
 const InformationItem = styled.p`
@@ -119,18 +129,22 @@ const ItemDescription = styled.span`
   color: ${({ theme }) => theme.descriptionText};
 `;
 
-const Borders = styled(InformationItem).attrs({
-  as: "div",
-})`
+const Borders = styled.div`
   margin-top: 64px;
+  @media screen and (max-width: 675px) {
+    margin-top: 0px;
+    gap: 20px 8px;
+  }
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 8px;
 `;
 
 const BorderContainer = styled.div`
-  gap: 0 8px;
+  gap: 12px 8px;
   display: flex;
-  width: 100%;
   flex-wrap: wrap;
-  margin-left: 8px;
 `;
 
 interface CountryInfo {
@@ -311,15 +325,12 @@ export default function CountryPage() {
                   <InformationItem>
                     <ItemTitle>Languages:</ItemTitle>
                     <ItemDescription>
-                      {data["languages"].map((language: string) => (
-                        <span key={language}>{language}</span>
-                      ))}
+                      {data["languages"].join(", ")}
                     </ItemDescription>
                   </InformationItem>
                 </Column>
                 {borderData.length > 0 && (
                   <Borders>
-                    <InformationItem>
                       <ItemTitle>Border Countries:</ItemTitle>
                       <BorderContainer>
                         {borderData.map((border: BorderCountry) => (
@@ -328,7 +339,6 @@ export default function CountryPage() {
                           </LinkButton>
                         ))}
                       </BorderContainer>
-                    </InformationItem>
                   </Borders>
                 )}
               </Information>
