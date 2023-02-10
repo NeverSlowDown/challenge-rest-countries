@@ -103,23 +103,28 @@ const ItemDescription = styled.span`
 
 const options = [
   {
-    value: "africa",
+    value: "All",
+    label: "All regions",
+  },
+  {
+    value: "Africa",
     label: "Africa",
   },
+
   {
-    value: "america",
-    label: "America",
+    value: "Americas",
+    label: "Americas",
   },
   {
-    value: "asia",
+    value: "Asia",
     label: "Asia",
   },
   {
-    value: "europe",
+    value: "Europe",
     label: "Europe",
   },
   {
-    value: "oceania",
+    value: "Oceania",
     label: "Oceania",
   },
 ];
@@ -138,36 +143,40 @@ interface Country {
   cca2: string;
 }
 
+interface Continent {
+  value: string;
+  label: string;
+}
+
 export default function HomePage() {
-  const [countries, setCountries] = useState([]);
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [allRegionCountries, setAllRegionCountries] = useState<Country[]>([]);
   const [countryName, setCountryName] = useState("");
   const [loading, setLoading] = useState(false);
-  const [continent, setContinent] = useState([
-    { value: "", label: "Filter by Region" },
+  const [continent, setContinent] = useState<Continent[]>([
+    { value: "All", label: "Filter by Region" },
   ]);
 
   async function getAllCountriesData() {
     try {
       setLoading(true);
-      const response = await fetch("https://restcountries.com/v3.1/all?fields=name,population,region,capital,flags,cca2");
-      const data = await response.json();
-      
-      setCountries(data);
-    } catch (err) {
-      setCountries([]);
-      return err;
-    } finally {
-      setLoading(false);
-    }
-  }
-  async function getAllCountriesByContinentData() {
-    try {
-      setLoading(true);
       const response = await fetch(
-        `https://restcountries.com/v3.1/region/${continent[0].value}?fields=name,population,region,capital,flags,cca2`
+        "https://restcountries.com/v3.1/all?fields=name,population,region,capital,flags,cca2"
       );
       const data = await response.json();
-      setCountries(data);
+      
+      // if there's a continent selected then filter countries
+      if (continent[0].value !== "All") {
+        const filtered = data.filter(
+          (country: Country) => country.region === continent[0].value
+        );
+        setCountries(filtered);
+      } else {
+        setCountries(data);
+      }
+      // save all region countries
+      setAllRegionCountries(data);
+
     } catch (err) {
       setCountries([]);
       return err;
@@ -177,18 +186,34 @@ export default function HomePage() {
   }
 
   async function getCountryByName() {
-    try {
-      setLoading(true);
-      const response = await fetch(
-        `https://restcountries.com/v3.1/name/${countryName}?fields=name,population,region,capital,flags,cca2`
-      );
-      const data = await response.json();
-      setCountries(data);
-    } catch (err) {
-      setCountries([]);
-      return err;
-    } finally {
-      setLoading(false);
+    if (countryName === "") {
+      getAllCountriesData();
+    } else {
+      try {
+        setLoading(true);
+        const response = await fetch(
+          `https://restcountries.com/v3.1/name/${countryName}?fields=name,population,region,capital,flags,cca2`
+        );
+        const data = await response.json();
+
+        // if there's a continent selected then filter countries
+        if (continent[0].value !== "All") {
+          const filtered = data.filter(
+            (country: Country) => country.region === continent[0].value
+          );
+          setCountries(filtered);
+        } else {
+          setCountries(data);
+        }
+        // save all region countries
+        setAllRegionCountries(data);
+
+      } catch (err) {
+        setCountries([]);
+        return err;
+      } finally {
+        setLoading(false);
+      }
     }
   }
 
@@ -197,14 +222,30 @@ export default function HomePage() {
     getCountryByName();
   }
 
+  function filterCountries() {
+    if (continent[0].value === "All") {
+      setCountries(allRegionCountries);
+    } else {
+      const filteredCountries = countries.filter(
+        (country: Country) => country.region === continent[0].value
+      );
+      if (filteredCountries.length === 0) {
+        const filteredAllRegionCountries = allRegionCountries.filter(
+          (country: Country) => country.region === continent[0].value
+        );
+        setCountries(filteredAllRegionCountries);
+      } else {
+        setCountries(filteredCountries);
+      }
+    }
+  }
+
   useEffect(() => {
     getAllCountriesData();
   }, []);
 
   useEffect(() => {
-    if (continent[0].value !== "") {
-      getAllCountriesByContinentData();
-    }
+    filterCountries();
   }, [continent]);
 
   return (
@@ -218,7 +259,6 @@ export default function HomePage() {
               autoComplete="off"
               placeholder="Search for a country..."
               name="search"
-              required
               value={countryName}
               onChange={(e) => setCountryName(e.target.value)}
             />
