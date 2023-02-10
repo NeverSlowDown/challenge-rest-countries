@@ -336,6 +336,7 @@ export default function HomePage() {
             values={continent}
             placeholder="Filter by Region"
             options={options}
+            searchable={false}
             onChange={(values) => setContinent(values)}
           />
         </SearchBar>

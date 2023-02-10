@@ -81,10 +81,39 @@ function App() {
       padding: 12px 20px !important;
     }
     
+    .filter-continent.react-dropdown-select {
+      height: 100% ;
+      min-height: 56px;
+      border: none ;
+      border-radius: ${currentTheme.borderRadius} ;
+      box-shadow: ${currentTheme.boxShadow} ;
+      transition: 0.3s ease;
+      font-size: .875em ;
+      &:hover {
+        box-shadow: ${currentTheme.boxShadowHover} ;
+      }
+    }
+
+    .filter-continent.react-dropdown-select .react-dropdown-select-item {
+      padding: 8px 10px !important;
+      &:hover {
+        font-weight: 800;
+        background: none;
+      }
+    }
+
+    .filter-continent .react-dropdown-select-item-selected {
+        background: none !important;
+        color: ${currentTheme.mainText} !important;
+        border-bottom: 1px solid #fff !important;
+        font-weight: 800;
+    }
+    
     .react-dropdown-select-dropdown {
       color: ${currentTheme.mainText} !important;
       background: ${currentTheme.main} !important;
     }
+
   `;
 
   return (
