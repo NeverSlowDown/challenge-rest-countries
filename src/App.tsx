@@ -5,11 +5,11 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import HomePage from "./components/HomePage";
 import Nav from "./components/Nav";
 import styled from "styled-components";
 import { useState } from "react";
 import CountryPage from "./components/CountryPage";
+import HomePage from "./components/homePage";
 
 const router = createBrowserRouter([
   {

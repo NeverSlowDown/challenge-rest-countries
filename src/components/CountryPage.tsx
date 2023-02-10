@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ArrowLeft } from "../icons/ArrowLeft";
-import { Container } from "./HomePage";
+import { Container } from "./homePage";
 import SkeletonCountry from "./SkeletonCountry";
 import SkeletonBorder from "./SkeletonBorder";
 
