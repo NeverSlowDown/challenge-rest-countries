@@ -23,6 +23,12 @@ export const Container = styled.div`
 const SearchBar = styled.div`
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  @media screen and (max-width: 675px) {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px 0;
+  }
 `;
 
 const SearchCountry = styled.input`
@@ -46,6 +52,9 @@ const SearchCountry = styled.input`
     + button {
       transform: scale(1) rotate(0deg);
     }
+  }
+  @media screen and (max-width: 675px) {
+    max-width: 100%
   }
 `;
 
@@ -167,6 +176,9 @@ const FormSearch = styled.form`
   align-items: center;
   flex: 1;
   max-width: 462px;
+  @media screen and (max-width: 675px) {
+    max-width: 100%
+  }
 `;
 
 const options = [

@@ -52,6 +52,9 @@ const MainTitle = styled.a`
   &:hover {
     opacity: 0.7
   }
+  @media screen and (max-width: 675px) {
+    font-size: 1em;
+  }
 `;
 
 interface ThemeSwitch {

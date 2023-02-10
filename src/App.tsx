@@ -41,7 +41,7 @@ export const theme = {
     secondary: "red",
     borderRadius: "8px",
     mainText: "hsl(0, 0%, 100%)",
-    descriptionText: "hsl(0, 0%, 52%)",
+    descriptionText: "hsl(0, 0%, 98%)",
     boxShadow: "0px 2px 8px #00000",
     boxShadowHover: "0px 8px 16px #00000",
   },
@@ -79,6 +79,9 @@ function App() {
       background: ${currentTheme.main};
       box-shadow: ${currentTheme.boxShadow};
       padding: 12px 20px !important;
+      @media screen and (max-width: 675px) {
+        max-width: fit-content;
+      }
     }
     
     .filter-continent.react-dropdown-select {
@@ -93,25 +96,28 @@ function App() {
         box-shadow: ${currentTheme.boxShadowHover} ;
       }
     }
-
+    
     .filter-continent.react-dropdown-select .react-dropdown-select-item {
       padding: 8px 10px !important;
+      border: none !important;
       &:hover {
         font-weight: 800;
         background: none;
       }
     }
-
+    
     .filter-continent .react-dropdown-select-item-selected {
-        background: none !important;
-        color: ${currentTheme.mainText} !important;
-        border-bottom: 1px solid #fff !important;
-        font-weight: 800;
+      background: none !important;
+      color: ${currentTheme.mainText} !important;
+      border-bottom: 1px solid #fff !important;
+      font-weight: 800;
     }
     
     .react-dropdown-select-dropdown {
       color: ${currentTheme.mainText} !important;
       background: ${currentTheme.main} !important;
+      border: none !important;
+      border-radius: ${currentTheme.borderRadius} !important;
     }
 
   `;
