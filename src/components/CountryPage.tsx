@@ -250,9 +250,8 @@ export default function CountryPage() {
 
   useEffect(() => {
     const getBorderCountriesData = () => {
-      setLoadingBorder(true);
-      data !== undefined &&
-        data.borders !== undefined &&
+      if (data !== undefined && data.borders !== undefined) {
+        setLoadingBorder(true);
         Promise.all(
           data.borders.map(async (border: string) => {
             const borderResponse = await fetch(
@@ -270,6 +269,7 @@ export default function CountryPage() {
             setLoadingBorder(false);
             console.log(e);
           });
+      }
     };
 
     getBorderCountriesData();
@@ -332,19 +332,21 @@ export default function CountryPage() {
                     </ItemDescription>
                   </InformationItem>
                 </Column>
-                {loadingBorder ?
+                {loadingBorder ? (
                   <SkeletonBorder />
-                : borderData.length > 0 && (
-                  <Borders>
-                    <ItemTitle>Border Countries:</ItemTitle>
-                    <BorderContainer>
-                      {borderData.map((border: BorderCountry) => (
-                        <LinkButton to={`/${border.cca2}`} key={border.cca2}>
-                          {border.name.common}
-                        </LinkButton>
-                      ))}
-                    </BorderContainer>
-                  </Borders>
+                ) : (
+                  borderData.length > 0 && (
+                    <Borders>
+                      <ItemTitle>Border Countries:</ItemTitle>
+                      <BorderContainer>
+                        {borderData.map((border: BorderCountry) => (
+                          <LinkButton to={`/${border.cca2}`} key={border.cca2}>
+                            {border.name.common}
+                          </LinkButton>
+                        ))}
+                      </BorderContainer>
+                    </Borders>
+                  )
                 )}
               </Information>
             </Details>
