@@ -373,7 +373,7 @@ export default function HomePage() {
                         <InformationItem>
                           <ItemTitle>Population:</ItemTitle>
                           <ItemDescription>
-                            {country.population}
+                            {country.population.toLocaleString()}
                           </ItemDescription>
                         </InformationItem>
                         <InformationItem>

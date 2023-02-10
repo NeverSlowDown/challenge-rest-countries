@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { ArrowLeft } from "../icons/ArrowLeft";
 import { Container } from "./HomePage";
 
 const CountrySection = styled.section`
@@ -11,24 +12,58 @@ const CountrySection = styled.section`
 
 const BackContainer = styled.div`
   display: flex;
-  margin: 64px 0;
+  margin: 32px 0;
 `;
 
 const LinkButton = styled(Link)`
-  background: ${({ theme }) => theme.mainColor};
+  background: ${({ theme }) => theme.main};
   color: ${({ theme }) => theme.mainText};
+  border-radius: ${({ theme }) => theme.borderRadius};
+  box-shadow: ${({ theme }) => theme.boxShadow};
+  padding: 8px 28px;
+  border: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1em;
+  transition: 0.3s ease;
+  &:hover {
+    box-shadow: ${({ theme }) => theme.boxShadowHover};
+    opacity: 0.7;
+  }
+  text-decoration: none;
+  text-align: center;
 `;
 
 const GoBack = styled.button`
-  background: ${({ theme }) => theme.mainColor};
+  background: ${({ theme }) => theme.main};
   color: ${({ theme }) => theme.mainText};
+  border-radius: ${({ theme }) => theme.borderRadius};
+  box-shadow: ${({ theme }) => theme.boxShadow};
+  padding: 12px 32px;
+  border: none;
+  display: grid;
+  align-items: center;
+  gap: 0 12px;
+  grid-template-columns: max-content max-content;
+  cursor: pointer;
+  font-size: 1em;
+  svg {
+    width: 18px;
+  }
+  transition: 0.3s ease;
+  &:hover {
+    box-shadow: ${({ theme }) => theme.boxShadowHover};
+    opacity: 0.7;
+  }
 `;
 
 const CountryDetails = styled.article`
   display: grid;
   align-items: center;
-  grid-template-columns: minmax(1fr, 540px) minmax(300px, 1fr);
+  grid-template-columns: minmax(540px, 1fr) minmax(300px, 1fr);
   color: ${({ theme }) => theme.mainText};
+  gap: 0 120px;
 `;
 
 const FlagContainer = styled.figure`
@@ -38,6 +73,7 @@ const FlagContainer = styled.figure`
 
 const Flag = styled.img`
   width: 100%;
+  height: 100%;
 `;
 
 const Details = styled.article`
@@ -48,12 +84,16 @@ const Details = styled.article`
 
 const CountryName = styled.h1`
   font-weight: 700;
-  font-size: 1.5em;
+  font-size: 1.75em;
+  text-align: left;
+  margin-bottom: 42px;
 `;
 
 const Information = styled.ul`
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px 0;
 `;
 
 const Column = styled.li`
@@ -72,6 +112,7 @@ const InformationItem = styled.p`
 
 const ItemTitle = styled.span`
   color: ${({ theme }) => theme.mainText};
+  font-weight: 600;
 `;
 
 const ItemDescription = styled.span`
@@ -81,7 +122,15 @@ const ItemDescription = styled.span`
 const Borders = styled(InformationItem).attrs({
   as: "div",
 })`
-  margin-top: 32px;
+  margin-top: 64px;
+`;
+
+const BorderContainer = styled.div`
+  gap: 0 8px;
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  margin-left: 8px;
 `;
 
 interface CountryInfo {
@@ -208,7 +257,9 @@ export default function CountryPage() {
     <CountrySection>
       <Container>
         <BackContainer>
-          <GoBack onClick={() => navigate(-1)}>Back</GoBack>
+          <GoBack onClick={() => navigate(-1)}>
+            <ArrowLeft /> Back
+          </GoBack>
         </BackContainer>
         {loading ? (
           <div>loading...</div>
@@ -223,7 +274,9 @@ export default function CountryPage() {
                 <Column>
                   <InformationItem>
                     <ItemTitle>Population:</ItemTitle>
-                    <ItemDescription>{data["population"]}</ItemDescription>
+                    <ItemDescription>
+                      {data["population"].toLocaleString()}
+                    </ItemDescription>
                   </InformationItem>
                   <InformationItem>
                     <ItemTitle>Region:</ItemTitle>
@@ -255,18 +308,26 @@ export default function CountryPage() {
                       ))}
                     </ItemDescription>
                   </InformationItem>
+                  <InformationItem>
+                    <ItemTitle>Languages:</ItemTitle>
+                    <ItemDescription>
+                      {data["languages"].map((language: string) => (
+                        <span key={language}>{language}</span>
+                      ))}
+                    </ItemDescription>
+                  </InformationItem>
                 </Column>
                 {borderData.length > 0 && (
                   <Borders>
                     <InformationItem>
-                      <ItemTitle>Border Countries</ItemTitle>
-                      <ItemDescription>
+                      <ItemTitle>Border Countries:</ItemTitle>
+                      <BorderContainer>
                         {borderData.map((border: BorderCountry) => (
                           <LinkButton to={`/${border.cca2}`} key={border.cca2}>
                             {border.name.common}
                           </LinkButton>
                         ))}
-                      </ItemDescription>
+                      </BorderContainer>
                     </InformationItem>
                   </Borders>
                 )}

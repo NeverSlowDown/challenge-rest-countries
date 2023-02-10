@@ -42,8 +42,8 @@ export const theme = {
     borderRadius: "8px",
     mainText: "hsl(0, 0%, 100%)",
     descriptionText: "hsl(0, 0%, 98%)",
-    boxShadow: "0px 2px 8px #00000",
-    boxShadowHover: "0px 8px 16px #00000",
+    boxShadow: "0px 2px 8px #242424",
+    boxShadowHover: "0px 8px 16px #242424",
   },
 };
 
