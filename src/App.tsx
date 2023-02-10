@@ -29,18 +29,18 @@ export const theme = {
     main: "#fffff",
     secondary: "red",
     borderRadius: "4px",
-    mainText: "#2a2b2d",
-    descriptionText: "#646464",
+    mainText: "hsl(200, 15%, 8%)",
+    descriptionText: "hsl(0, 0%, 52%)",
     boxShadow: "0px 4px 4px #efefef",
   },
   dark: {
     name: "dark",
-    background: "#212d36",
-    main: "#2b3743",
+    background: "hsl(207, 26%, 17%)",
+    main: "hsl(209, 23%, 22%)",
     secondary: "red",
     borderRadius: "4px",
-    mainText: "#fbffff",
-    descriptionText: "#dde7ef",
+    mainText: "hsl(0, 0%, 100%)",
+    descriptionText: "hsl(0, 0%, 52%)",
     boxShadow: "0px 4px 4px #efefef",
   },
 };
@@ -63,9 +63,13 @@ function App() {
   );
 
   const GlobalStyle = createGlobalStyle`
+ 
     html, body, #root {
       width: 100%;
       height: 100%;
+    }
+    body {
+      font-family: 'Nunito Sans', sans-serif;
     }
     .filter-continent {
       color: ${currentTheme.mainText};

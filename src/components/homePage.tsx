@@ -13,10 +13,10 @@ const Section = styled.section`
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 1200px;
+  max-width: 1400px;
+  padding: 32px 20px;
   margin: 0 auto;
   gap: 12px 0;
-  padding: 32px 0;
 `;
 
 const SearchBar = styled.div`
@@ -54,7 +54,9 @@ const CountryList = styled.ul`
   width: 100%;
 `;
 
-const CountryItem = styled.li``;
+const CountryItem = styled.li`
+  background: ${({ theme }) => theme.main};
+`;
 
 const CountryContainer = styled(Link)`
   display: flex;
@@ -66,9 +68,10 @@ const CountryContainer = styled(Link)`
 `;
 
 const CountryInformation = styled.article`
-  display: flex;
-  flex-direction: column;
+  display: grid;
   padding: 16px 8px;
+  grid-template-columns: 1fr;
+  gap: 8px 0;
   color: ${({ theme }) => theme.mainText};
 `;
 
@@ -91,10 +94,13 @@ const CountryName = styled.span`
   color: ${({ theme }) => theme.mainText};
   font-size: 1.25em;
   text-align: left;
+  margin-bottom: 16px;
+  font-weight: 600;
 `;
 
 const ItemTitle = styled.span`
   color: ${({ theme }) => theme.mainText};
+  font-weight: 600;
 `;
 
 const ItemDescription = styled.span`
@@ -290,17 +296,17 @@ export default function HomePage() {
                       <CountryInformation>
                         <CountryName>{country.name.common}</CountryName>
                         <InformationItem>
-                          <ItemTitle>Population</ItemTitle>
+                          <ItemTitle>Population:</ItemTitle>
                           <ItemDescription>
                             {country.population}
                           </ItemDescription>
                         </InformationItem>
                         <InformationItem>
-                          <ItemTitle>Region</ItemTitle>
+                          <ItemTitle>Region:</ItemTitle>
                           <ItemDescription>{country.region}</ItemDescription>
                         </InformationItem>
                         <InformationItem>
-                          <ItemTitle>Capital</ItemTitle>
+                          <ItemTitle>Capital:</ItemTitle>
                           <ItemDescription>{country.capital}</ItemDescription>
                         </InformationItem>
                       </CountryInformation>
