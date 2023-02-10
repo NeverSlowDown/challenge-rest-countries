@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ArrowLeft } from "../icons/ArrowLeft";
 import { Container } from "./HomePage";
+import SkeletonCountry from "./SkeletonCountry";
 
 const CountrySection = styled.section`
   background: ${({ theme }) => theme.background};
@@ -275,9 +276,9 @@ export default function CountryPage() {
             <ArrowLeft /> Back
           </GoBack>
         </BackContainer>
-        {loading ? (
-          <div>loading...</div>
-        ) : data !== undefined ? (
+        {/* {loading ? ( */}
+          <SkeletonCountry />
+        {/* ) : data !== undefined ? (
           <CountryDetails>
             <FlagContainer>
               <Flag src={data["flags"]["svg"]} />
@@ -342,7 +343,7 @@ export default function CountryPage() {
           </CountryDetails>
         ) : (
           <div>error</div>
-        )}
+        )} */}
       </Container>
     </CountrySection>
   );
